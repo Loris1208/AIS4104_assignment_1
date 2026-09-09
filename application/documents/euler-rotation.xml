@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arrangement>
+    <preset name="Rotation: Euler angles" scenario="euler pose"/>
+    <arrangement>
+        <object name="Frame" euler_order="ZYX">
+            <position x="0" y="0" z="0"/>
+            <euler x="0" y="0" z="0"/>
+        </object>
+    </arrangement>
+</arrangement>

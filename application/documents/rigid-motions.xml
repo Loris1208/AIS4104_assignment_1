@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <presets>
+        <preset name="euler-pose" document="euler-pose.xml"/>
+        <preset name="euler-relative" document="euler-relative.xml"/>
+        <preset name="frame-workbench" document="frame-workbench.xml"/>
+        <preset name="screw" document="screw.xml"/>
+        <preset name="twist-axis" document="twist-axis.xml"/>
+        <preset name="euler-rotation" document="euler-rotation.xml"/>
+        <preset name="rotation-axis" document="rotation-axis.xml"/>
+        <preset name="two-pose" document="two-pose.xml"/>
+    </presets>
+</application>
