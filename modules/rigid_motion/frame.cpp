@@ -19,8 +19,6 @@ Eigen::Matrix3d rotate_x(double radians)
     0.0, std::cos(radians),-std::sin(radians),
     0.0,std::sin(radians),std::sin(radians);// << for 3x3 matrix
 
-
-
     return Eigen::Matrix3d::Zero();
 
 
