@@ -10,17 +10,20 @@
 namespace ais4104::rigid_motion {
 
 //TASK: 1b
-//REFERENCE:
+//REFERENCE: Equation (3.30) page 75, MR pre-print 2019
 Eigen::Matrix3d skew_symmetric(const Eigen::Vector3d &v)
 {
-    return Eigen::Matrix3d::Zero();
+    Eigen::Matrix3d m_skew_symm =  Eigen::Matrix3d::Zero();
+    m_skew_symm << 0.0, -v[2], v[1],v[2],0.0, -v[0],-v[1],v[0],0;
+    return m_skew_symm;
 }
 
 //TASK: 1c
-//REFERENCE:
+//REFERENCE:  Equation (3.30) page 75, MR pre-print 2019
 Eigen::Vector3d from_skew_symmetric(const Eigen::Matrix3d &m)
 {
-    return Eigen::Vector3d::Zero();
+    Eigen::Vector3d v_from_skew_sym = {m(2,1),m(0,2),m(1,0)};
+    return v_from_skew_sym;
 }
 
 //TASK: 3b
@@ -33,12 +36,13 @@ praxis::expected<Eigen::Vector6d, praxis::refusal> screw_axis_from_point_directi
 //TASK: 3c
 //REFERENCE:
 Eigen::Vector6d screw_axis_from_angular_linear(const Eigen::Vector3d &w, const Eigen::Vector3d &v)
-{   Eigen::Vector6d screw;
-    screw.head<3>() = w;
-    screw.head<3>() = v;
+{
+    //Eigen::Vector6d screw;
+    //screw.head<3>() = w;
+    //screw.tail<3>() = v;
 
-    return screw;
-    //return Eigen::Vector6d::Zero();
+    //return screw;
+    return Eigen::Vector6d::Zero();
 }
 
 //TASK: 3d
