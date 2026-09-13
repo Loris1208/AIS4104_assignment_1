@@ -58,7 +58,7 @@ Eigen::Matrix3d rotation_matrix_from_axis_angle(const Eigen::Vector3d &axis, dou
 }
 
 //TASK: 1i Implement the special cases for Euler ZYX and XYZ using rotate_x, rotate_y, and rotate_z
-//REFERENCE: First Formula in section B.1 page 577, MR pre-print 2019
+//REFERENCE: First formula in section B.1 page 577, MR pre-print 2019
 Eigen::Matrix3d rotation_matrix_from_euler(const Eigen::Vector3d &e, praxis::axis_order order)
 {
     if(order == praxis::axis_order::zyx)
@@ -97,45 +97,51 @@ Eigen::Vector3d euler_from_rotation_matrix(const Eigen::Matrix3d &r, praxis::axi
 }
 
 //TASK: 2b
-//REFERENCE:
+//REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix3d rotation_matrix_from_transform(const Eigen::Matrix4d &tf)
 {
-    return Eigen::Matrix3d::Zero();
+    Eigen::Matrix3d r = tf.block<3,3>(0,0);
+    return r;
 }
 
 //TASK: 2c
-//REFERENCE:
+//REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation_position(const Eigen::Matrix3d &r, const Eigen::Vector3d &p)
 {
-    //Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
-    //t.block<3,3>(0,0) = r;
-    //t.block<3,1>(0,0) = p;
-    //return t;
-    return Eigen::Matrix4d::Zero();
+    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    t.block<3,3>(0,0) = r;
+    t.block<3,1>(0,3) = p;
+    return t;
 }
 
 //TASK: 2d
-//REFERENCE:
+//REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_position(const Eigen::Vector3d &p)
 {
-    //Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
-    //t.block<3,1>(0,3) = p;
-    //return t;
-    return Eigen::Matrix4d::Zero();
+    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    t.block<3,1>(0,3) = p;
+    return t;
 }
 
 //TASK: 2e
-//REFERENCE:
+//REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation(const Eigen::Matrix3d &r)
 {
-    return Eigen::Matrix4d::Zero();
+    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    t.block<3,3>(0,0) = r;
+    return t;
 }
 
 //TASK: 2f
-//REFERENCE:
+//REFERENCE: Equation (3.64) page 88, MR pre-print 2019
 Eigen::Matrix4d inverse(const Eigen::Matrix4d &tf)
 {
-    return Eigen::Matrix4d::Zero();
+    Eigen:: Matrix3d r = rotation_matrix_from_transform(tf);
+    Eigen:: Vector3d p = tf.block<3,1>(0,3);
+    Eigen:: Matrix4d inv_tf = Eigen::Matrix4d::Identity();
+    inv_tf.block<3,3>(0,0) = r.transpose();
+    inv_tf.block<3,1>(0,3) = -r.transpose() * p;
+    return inv_tf;
 }
 
 }
