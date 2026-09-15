@@ -108,7 +108,7 @@ Eigen::Matrix3d rotation_matrix_from_transform(const Eigen::Matrix4d &tf)
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation_position(const Eigen::Matrix3d &r, const Eigen::Vector3d &p)
 {
-    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
     t.block<3,3>(0,0) = r;
     t.block<3,1>(0,3) = p;
     return t;
@@ -118,7 +118,7 @@ Eigen::Matrix4d transformation_matrix_from_rotation_position(const Eigen::Matrix
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_position(const Eigen::Vector3d &p)
 {
-    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
     t.block<3,1>(0,3) = p;
     return t;
 }
@@ -127,7 +127,7 @@ Eigen::Matrix4d transformation_matrix_from_position(const Eigen::Vector3d &p)
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation(const Eigen::Matrix3d &r)
 {
-    Eigen:: Matrix4d t = Eigen::Matrix4d::Identity();
+    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
     t.block<3,3>(0,0) = r;
     return t;
 }
@@ -136,9 +136,9 @@ Eigen::Matrix4d transformation_matrix_from_rotation(const Eigen::Matrix3d &r)
 //REFERENCE: Equation (3.64) page 88, MR pre-print 2019
 Eigen::Matrix4d inverse(const Eigen::Matrix4d &tf)
 {
-    Eigen:: Matrix3d r = rotation_matrix_from_transform(tf);
-    Eigen:: Vector3d p = tf.block<3,1>(0,3);
-    Eigen:: Matrix4d inv_tf = Eigen::Matrix4d::Identity();
+    Eigen::Matrix3d r = rotation_matrix_from_transform(tf);
+    Eigen::Vector3d p = tf.block<3,1>(0,3);
+    Eigen::Matrix4d inv_tf = Eigen::Matrix4d::Identity();
     inv_tf.block<3,3>(0,0) = r.transpose();
     inv_tf.block<3,1>(0,3) = -r.transpose() * p;
     return inv_tf;
