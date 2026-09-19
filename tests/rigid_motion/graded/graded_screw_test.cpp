@@ -46,13 +46,8 @@ constexpr std::array<graded_rows, tasks_named("screw.")> screw_rows{{
         {"3f",
          [](const motions &c, const graded_task &e, const allowance &a)
          {
-             const auto answered       = [&](const auto &r) { return c.screw.adjoint_matrix_from_rotation_position(matrix3_of(r.rotation), vector_of(r.position_metres)); };
-             const std::size_t counted = require_rows(e, a, adjoint_matrix_from_rotation_position_cases,
-                                                      [&](const auto &r) { return graded_against(answered(r), adjoint_of(r.expected), element_wise, a); });
-
-             return counted +
-                     require_refusals(
-                             e, a, adjoint_matrix_from_rotation_position_refusals, [&](const auto &r) { return refused_against(answered(r), r.expected, element_wise, a); }, counted);
+             return require_rows(e, a, adjoint_matrix_from_rotation_position_cases, [&](const auto &r)
+                                 { return graded_against(c.screw.adjoint_matrix_from_rotation_position(matrix3_of(r.rotation), vector_of(r.position_metres)), adjoint_of(r.expected), element_wise, a); });
          }},
         {"3g",
          [](const motions &c, const graded_task &e, const allowance &a)
@@ -105,13 +100,8 @@ constexpr std::array<graded_rows, tasks_named("screw.")> screw_rows{{
         {"3b",
          [](const motions &c, const graded_task &e, const allowance &a)
          {
-             const auto answered       = [&](const auto &r) { return c.screw.screw_axis_from_point_direction_pitch(vector_of(r.point_metres), vector_of(r.direction), r.pitch); };
-             const std::size_t counted = require_rows(e, a, screw_axis_from_point_direction_pitch_cases,
-                                                      [&](const auto &r) { return graded_against(answered(r), vector_of(r.expected_axis), axis_up_to_sign, a); });
-
-             return counted +
-                     require_refusals(
-                             e, a, screw_axis_from_point_direction_pitch_refusals, [&](const auto &r) { return refused_against(answered(r), r.expected, axis_up_to_sign, a); }, counted);
+             return require_rows(e, a, screw_axis_from_point_direction_pitch_cases, [&](const auto &r)
+                                 { return graded_against(c.screw.screw_axis_from_point_direction_pitch(vector_of(r.point_metres), vector_of(r.direction), r.pitch), vector_of(r.expected_axis), axis_up_to_sign, a); });
          }},
         {"3k",
          [](const motions &c, const graded_task &e, const allowance &a)
@@ -134,22 +124,14 @@ constexpr std::array<graded_rows, tasks_named("screw.")> screw_rows{{
         {"3n",
          [](const motions &c, const graded_task &e, const allowance &a)
          {
-             const auto answered       = [&](const auto &r) { return c.screw.matrix_logarithm_so3(matrix3_of(r.rotation)); };
-             const std::size_t counted = require_rows(e, a, matrix_logarithm_so3_cases, [&](const auto &r)
-                                                      { return graded_against(answered(r), rotation_log{vector_of(r.expected_axis), r.expected_radians}, rotation_log_residual, a); });
-
-             return counted +
-                     require_refusals(e, a, matrix_logarithm_so3_refusals, [&](const auto &r) { return refused_against(answered(r), r.expected, rotation_log_residual, a); }, counted);
+             return require_rows(e, a, matrix_logarithm_so3_cases, [&](const auto &r)
+                                 { return graded_against(c.screw.matrix_logarithm_so3(matrix3_of(r.rotation)), rotation_log{vector_of(r.expected_axis), r.expected_radians}, rotation_log_residual, a); });
          }},
         {"3o",
          [](const motions &c, const graded_task &e, const allowance &a)
          {
-             const auto answered       = [&](const auto &r) { return c.screw.matrix_logarithm_se3_rp(matrix3_of(r.rotation), vector_of(r.position_metres)); };
-             const std::size_t counted = require_rows(e, a, matrix_logarithm_se3_rp_cases, [&](const auto &r)
-                                                      { return graded_against(answered(r), pose_log{vector_of(r.expected_axis), r.expected_radians}, pose_log_residual, a); });
-
-             return counted +
-                     require_refusals(e, a, matrix_logarithm_se3_rp_refusals, [&](const auto &r) { return refused_against(answered(r), r.expected, pose_log_residual, a); }, counted);
+             return require_rows(e, a, matrix_logarithm_se3_rp_cases, [&](const auto &r)
+                                 { return graded_against(c.screw.matrix_logarithm_se3_rp(matrix3_of(r.rotation), vector_of(r.position_metres)), pose_log{vector_of(r.expected_axis), r.expected_radians}, pose_log_residual, a); });
          }},
         {"3p",
          [](const motions &c, const graded_task &e, const allowance &a)

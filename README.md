@@ -3,12 +3,24 @@
 All your code in this assignment should land inside `modules/rigid_motion/frame.cpp` or `modules/rigid_motion/screw.cpp`.
 
 There are two CMake targets of relevance: 
-1. `assignment_rigid_motions`: your code (in `frame.cpp` and `screw.cpp`) is used in these presets.</br>
-2. `preset_rigid_motions`: presets with reference behavior that can be used to visualize topics of the book, or expected behavior for your assignment.
+1. `assignment_1_presets`: your code (in `frame.cpp` and `screw.cpp`) is used in these presets.</br>
+2. `rigid_motion_presets`: presets with reference behavior that can be used to visualize topics of the book, or expected behavior for your assignment.
 
 ### Tests
 
-The target `rigid_motion_graded_tests` can be ran to verify your code correctly implements the tasks according to the book.
+The target `assignment_1_tests` can be ran to verify your code correctly implements the tasks according to the book.
+
+`assignment_1_baseline_tests` is a second, optional target. It does not run under `ctest`; run it by name, with
+the argument `"[.extended]"`. Rather than checking the frozen rows `assignment_1_tests` uses, it compares every one
+of your functions against the reference over a thousand randomly drawn inputs, and reports the largest disagreement
+it found for each. Use it when a task passes `assignment_1_tests` but you want to know whether it holds up away from
+those rows. Everything it finds is reported as a warning; the run passes either way, so read the warnings rather
+than the verdict. A disagreement near a half turn is expected, as the book's formulas lose accuracy there, which is
+a property of the mathematics rather than a mistake in your code. A warning that a task "answered non-finitely"
+means some drawn input drove your code to infinity or to not-a-number. The book decides its cases on exact
+conditions such as "if R = I" and says nothing about how to decide them in floating point, so two reasonable
+choices of test can leave a narrow band of inputs that neither case handles. Such a warning tells you where that
+band is in your own code.
 
 ### Agentic coding and LLM assistance
 Read the handout PDF requirements on the use of LLMs -- the handout states requirements and guidelines, 
@@ -79,11 +91,12 @@ configure, 3 minutes to build, and 2 GB of disk. This was measured on a desktop 
 and the numbers are a floor, not an average; an older laptop or a slow connection takes several times as long.
 Every build after the first will recompile only what you changed.
 
-Run `rigid_motion_graded_tests` from the run configuration dropdown at the top right. On a fresh checkout
+Run `assignment_1_tests` from the run configuration dropdown at the top right. On a fresh checkout
 every task fails; that is what subtask 1.a) asks you to verify.
 
-The project builds with 48 `-Wunused-parameter` warnings in `frame.cpp` and `screw.cpp`. That is
-expected on an unimplemented checkout — each one goes away as you fill in the task below it.
+The project builds with around 46 `-Wunused-parameter` warnings in `frame.cpp` and `screw.cpp` under
+GCC and Clang; MSVC counts and names them differently. That is expected on an unimplemented
+checkout — each one goes away as you fill in the task below it.
 
 ### Build issues or system hangup
 

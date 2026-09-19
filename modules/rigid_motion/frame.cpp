@@ -14,7 +14,7 @@ namespace ais4104::rigid_motion {
 //REFERENCE: Formula of the rotation matrix page 72, MR pre-print 2019
 Eigen::Matrix3d rotate_x(double radians)
 {
-    Eigen::Matrix3d r =  Eigen::Matrix3d::Zero();
+    praxis::rotation r =  Eigen::Matrix3d::Zero();
     r << 1.0, 0.0, 0.0, 0.0, std::cos(radians),-std::sin(radians),0.0,std::sin(radians),std::cos(radians);// << for 3x3 matrix
     return r;
 }
@@ -23,7 +23,7 @@ Eigen::Matrix3d rotate_x(double radians)
 //REFERENCE: Formula of the rotation matrix page 72, MR pre-print 2019
 Eigen::Matrix3d rotate_y(double radians)
 {
-    Eigen::Matrix3d r =  Eigen::Matrix3d::Zero();
+    praxis::rotation r =  Eigen::Matrix3d::Zero();
     r << std::cos(radians), 0.0, std::sin(radians), 0.0, 1.0, 0.0,-std::sin(radians), 0.0, std::cos(radians);
     return r;
 }
@@ -32,7 +32,7 @@ Eigen::Matrix3d rotate_y(double radians)
 //REFERENCE: Formula of the rotation matrix page 72, MR pre-print 2019
 Eigen::Matrix3d rotate_z(double radians)
 {
-    Eigen::Matrix3d r =  Eigen::Matrix3d::Zero();
+    praxis::rotation r =  Eigen::Matrix3d::Zero();
     r << std::cos(radians), -std::sin(radians), 0.0, std::sin(radians), std::cos(radians), 0.0, 0.0, 0.0, 1.0;
     return r;
 }
@@ -41,7 +41,7 @@ Eigen::Matrix3d rotate_z(double radians)
 //REFERENCE: Equation (3.16) page 65, MR pre-print 2019
 Eigen::Matrix3d rotation_matrix_from_frame_axes(const Eigen::Vector3d &x, const Eigen::Vector3d &y, const Eigen::Vector3d &z)
 {
-    Eigen::Matrix3d r = Eigen::Matrix3d::Zero();
+    praxis::rotation r = Eigen::Matrix3d::Zero();
     r.col(0) = x;
     r.col(1) = y;
     r.col(2) = z;
@@ -53,7 +53,7 @@ Eigen::Matrix3d rotation_matrix_from_frame_axes(const Eigen::Vector3d &x, const 
 Eigen::Matrix3d rotation_matrix_from_axis_angle(const Eigen::Vector3d &axis, double radians)
 {
     Eigen::Matrix3d m;
-    m = Eigen::Matrix3d::Identity() +  std::sin(radians) * skew_symmetric(axis) + (1-std::cos(radians)) * skew_symmetric(axis) * skew_symmetric(axis);
+    m = Eigen::Matrix3d::Identity() + std::sin(radians) * skew_symmetric(axis) + (1-std::cos(radians)) * skew_symmetric(axis) * skew_symmetric(axis);
     return m;
 }
 
@@ -100,7 +100,7 @@ Eigen::Vector3d euler_from_rotation_matrix(const Eigen::Matrix3d &r, praxis::axi
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix3d rotation_matrix_from_transform(const Eigen::Matrix4d &tf)
 {
-    Eigen::Matrix3d r = tf.block<3,3>(0,0);
+    praxis::rotation r = tf.block<3,3>(0,0);
     return r;
 }
 
@@ -108,7 +108,7 @@ Eigen::Matrix3d rotation_matrix_from_transform(const Eigen::Matrix4d &tf)
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation_position(const Eigen::Matrix3d &r, const Eigen::Vector3d &p)
 {
-    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
+    praxis::transform t = Eigen::Matrix4d::Identity();
     t.block<3,3>(0,0) = r;
     t.block<3,1>(0,3) = p;
     return t;
@@ -118,7 +118,7 @@ Eigen::Matrix4d transformation_matrix_from_rotation_position(const Eigen::Matrix
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_position(const Eigen::Vector3d &p)
 {
-    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
+    praxis::transform t = Eigen::Matrix4d::Identity();
     t.block<3,1>(0,3) = p;
     return t;
 }
@@ -127,7 +127,7 @@ Eigen::Matrix4d transformation_matrix_from_position(const Eigen::Vector3d &p)
 //REFERENCE: Equation (3.63) page 88, MR pre-print 2019
 Eigen::Matrix4d transformation_matrix_from_rotation(const Eigen::Matrix3d &r)
 {
-    Eigen::Matrix4d t = Eigen::Matrix4d::Identity();
+    praxis::transform t = Eigen::Matrix4d::Identity();
     t.block<3,3>(0,0) = r;
     return t;
 }
@@ -136,7 +136,7 @@ Eigen::Matrix4d transformation_matrix_from_rotation(const Eigen::Matrix3d &r)
 //REFERENCE: Equation (3.64) page 88, MR pre-print 2019
 Eigen::Matrix4d inverse(const Eigen::Matrix4d &tf)
 {
-    Eigen::Matrix3d r = rotation_matrix_from_transform(tf);
+    praxis::rotation r = rotation_matrix_from_transform(tf);
     Eigen::Vector3d p = tf.block<3,1>(0,3);
     Eigen::Matrix4d inv_tf = Eigen::Matrix4d::Identity();
     inv_tf.block<3,3>(0,0) = r.transpose();

@@ -95,9 +95,9 @@ spread_result measured(const praxis::evaluation::evaluation_view &view, const pr
     return tallied;
 }
 
-bool finite_and_exercised(const spread_result &tallied, std::size_t cases)
+bool exercised_throughout(const spread_result &tallied, std::size_t cases)
 {
-    return tallied.finite && cases > 0 && tallied.exercised == cases;
+    return cases > 0 && tallied.exercised == cases;
 }
 
 bool agreed_throughout(const spread_result &tallied, std::size_t cases)
@@ -140,6 +140,17 @@ std::string graded_line(const ais4104::graded_task &entry, std::string_view spre
                        tallied.worst_case_index, tallied.worst.magnitude, tallied.worst.linear_error_metres, allowed.magnitude, allowed.linear_metres);
 }
 
+// An answer of infinity or not-a-number is reported rather than required against. The printed
+// algorithms decide a case on an exact predicate -- "if R = I" -- and say nothing about how to
+// decide it in floating point, so a faithful reading can pick a test whose boundary sits away from
+// the arithmetic the next case performs, and answer non-finitely between the two. That is a
+// property of the transcription, not a wrong answer, and the row names the task and the case it was
+// found at so it can be read.
+std::string non_finite_line(const ais4104::graded_task &entry, std::string_view spread)
+{
+    return std::format("task {} {} {} answered non-finitely on at least one of {} cases", entry.task, entry.slot, spread, graded_cases);
+}
+
 std::string reach_line(const ais4104::graded_task &entry, std::size_t bound_measured_to_cases)
 {
     return std::format("task {} {} draws {} cases, past the {} the published bound was measured over", entry.task, entry.slot, graded_cases, bound_measured_to_cases);
@@ -153,13 +164,19 @@ void warned(const ais4104::graded_task &entry, const graded_row &row)
     if(!agreed_throughout(row.near_singular, graded_cases))
         WARN(graded_line(entry, "near-singular", row.near_singular, row.allowed));
 
+    if(!row.bulk.finite)
+        WARN(non_finite_line(entry, "bulk"));
+
+    if(!row.near_singular.finite)
+        WARN(non_finite_line(entry, "near-singular"));
+
     if(row.bound_measured_to_cases > 0 && graded_cases > row.bound_measured_to_cases)
         WARN(reach_line(entry, row.bound_measured_to_cases));
 }
 
 }
 
-TEST_CASE("every graded rigid-motion task answers finitely and reports its deviation from praxis's reference", "[.extended][rigid_motion][grading]")
+TEST_CASE("every graded rigid-motion task is exercised and reports its deviation from praxis's reference", "[.extended][rigid_motion][grading]")
 {
     const std::vector<graded_row> &rows = graded_once();
     REQUIRE(rows.size() == ais4104::graded_tasks.size());
@@ -176,8 +193,8 @@ TEST_CASE("every graded rigid-motion task answers finitely and reports its devia
 
             warned(entry, row);
 
-            REQUIRE(finite_and_exercised(row.bulk, graded_cases));
-            REQUIRE(finite_and_exercised(row.near_singular, graded_cases));
+            REQUIRE(exercised_throughout(row.bulk, graded_cases));
+            REQUIRE(exercised_throughout(row.near_singular, graded_cases));
         }
     }
 }

@@ -1,9 +1,9 @@
-add_executable(rigid_motion_baseline_tests baseline_test.cpp)
+add_executable(assignment_1_baseline_tests baseline_test.cpp)
 
-target_link_libraries(rigid_motion_baseline_tests PRIVATE Catch2::Catch2WithMain praxis::rigid_motion praxis::evaluation ais4104::modules::rigid_motion)
+target_link_libraries(assignment_1_baseline_tests PRIVATE Catch2::Catch2WithMain praxis::rigid_motion praxis::evaluation ais4104::modules::rigid_motion)
 
-target_include_directories(rigid_motion_baseline_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+target_include_directories(assignment_1_baseline_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-ais4104_target_warnings(rigid_motion_baseline_tests)
+ais4104_target_warnings(assignment_1_baseline_tests)
 
-catch_discover_tests(rigid_motion_baseline_tests)
+catch_discover_tests(assignment_1_baseline_tests)

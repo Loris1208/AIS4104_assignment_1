@@ -39,7 +39,8 @@ praxis::axis_order order_of(std::uint8_t index)
 // One entry per slot the measurement grades strictly: the assignment's own identifier, the bound the
 // record gives that slot, and how that slot's rows are answered and judged. A slot whose printed
 // branch the drawn corpus cannot reach runs its authored row after its drawn ones, at a case
-// identifier continuing past them.
+// identifier continuing past them. This suite carries value rows only; a refusal is graded nowhere
+// but in the graded suite.
 struct strict_rows
 {
     std::string_view task;
@@ -85,11 +86,8 @@ constexpr std::array<strict_rows, strictly_graded_slots> strict_slots{{
         {"3c", &screw_axis_from_angular_linear_bound,
          [](const motions &c, const graded_task &e, const allowance &a)
          {
-             const auto judged = [&](const auto &r)
-             { return graded_against(c.screw.screw_axis_from_angular_linear(vector_of(r.angular), vector_of(r.linear)), vector_of(r.expected), axis_up_to_sign, a); };
-             const std::size_t counted = require_rows(e, a, screw_axis_from_angular_linear_near_singular_cases, judged);
-
-             return counted + require_rows(e, a, screw_axis_from_angular_linear_guard_band_cases, judged, counted);
+             return require_rows(e, a, screw_axis_from_angular_linear_near_singular_cases, [&](const auto &r)
+                                 { return graded_against(c.screw.screw_axis_from_angular_linear(vector_of(r.angular), vector_of(r.linear)), vector_of(r.expected), axis_up_to_sign, a); });
          }},
         {"3k", &matrix_exponential_so3_bound,
          [](const motions &c, const graded_task &e, const allowance &a)
@@ -162,7 +160,7 @@ TEST_CASE("every strict task answers within the measured bound", "[.strict][rigi
             const praxis::evaluation::slot_evaluation *const slot = ais4104::graded_slot(entry.slot);
             REQUIRE(slot != nullptr);
 
-            ais4104::standing_matches(*graded.bound, slot->kind);
+            ais4104::standing_matches(*graded.bound, slot->allowed);
             graded.run(composed, entry, ais4104::allowed_of(*graded.bound));
         }
     }

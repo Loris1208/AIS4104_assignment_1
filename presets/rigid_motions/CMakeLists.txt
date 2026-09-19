@@ -1,16 +1,16 @@
-add_executable(preset_rigid_motions
+add_executable(rigid_motion_presets
     ${CMAKE_SOURCE_DIR}/application/main.cpp
     offered_motions.cpp
 )
 
-set(AIS4104_PRESET_RIGID_MOTIONS_CONFIGURATION "${CMAKE_SOURCE_DIR}/application/documents/rigid-motions.xml" CACHE FILEPATH
-    "The application document preset_rigid_motions reads at start-up")
+set(AIS4104_RIGID_MOTION_PRESETS_CONFIGURATION "${CMAKE_SOURCE_DIR}/application/documents/rigid-motions.xml" CACHE FILEPATH
+    "The application document rigid_motion_presets reads at start-up")
 
-target_link_libraries(preset_rigid_motions PRIVATE ais4104::application)
+target_link_libraries(rigid_motion_presets PRIVATE ais4104::application)
 
-target_compile_definitions(preset_rigid_motions PRIVATE AIS4104_PREVIEW_FRAMES=${AIS4104_PREVIEW_FRAMES}
-    AIS4104_APPLICATION_CONFIGURATION="${AIS4104_PRESET_RIGID_MOTIONS_CONFIGURATION}")
+target_compile_definitions(rigid_motion_presets PRIVATE AIS4104_PREVIEW_FRAMES=${AIS4104_PREVIEW_FRAMES}
+    AIS4104_APPLICATION_CONFIGURATION="${AIS4104_RIGID_MOTION_PRESETS_CONFIGURATION}")
 
-praxis_target_persistent_directory(preset_rigid_motions DIRECTORY "${PRAXIS_PERSISTENT_DIRECTORY}/preset_rigid_motions")
+praxis_target_persistent_directory(rigid_motion_presets DIRECTORY "${PRAXIS_PERSISTENT_DIRECTORY}/rigid_motion_presets")
 
-ais4104_target_warnings(preset_rigid_motions)
+ais4104_target_warnings(rigid_motion_presets)

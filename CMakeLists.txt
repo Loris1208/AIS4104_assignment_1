@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-set(AIS4104_PRAXIS_GIT_TAG "a1840439f71e313e83fa0a7d77541a8f89c081a4" CACHE STRING
+set(AIS4104_PRAXIS_GIT_TAG "f441ecd38063daf6336dfd4e48debb5f81576a41" CACHE STRING
     "The praxis revision this project builds against, written as the full forty-character commit hash because praxis publishes no tags")
 set(AIS4104_CATCH2_GIT_TAG "v3.15.3" CACHE STRING
     "The Catch2 release this project fetches, which is the release praxis pins for its own suite")
@@ -29,6 +29,10 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
 
 include(FetchContent)
 
+# Every target a fetched dependency declares inherits this folder, so an IDE groups the whole of
+# them under one node instead of listing them beside this project's own targets.
+set(CMAKE_FOLDER "Dependencies")
+
 FetchContent_Declare(
     Catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2.git
@@ -43,6 +47,8 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
 )
 FetchContent_MakeAvailable(praxis)
+
+unset(CMAKE_FOLDER)
 
 list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
 include(Catch)
