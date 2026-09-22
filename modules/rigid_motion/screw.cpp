@@ -82,7 +82,7 @@ praxis::expected<Eigen::Vector6d, praxis::refusal> twist_from_screw(const Eigen:
     praxis::screw_axis screw;
     praxis::twist twist;
     screw = screw_axis_from_point_direction_pitch(q,s,h).value();
-    twist = screw*angular_velocity;
+    twist = screw * angular_velocity;
     return twist;
 }
 
@@ -96,7 +96,7 @@ praxis::expected<Eigen::Matrix6d, praxis::refusal> adjoint_matrix_from_rotation_
     {
         adt.block<3,3>(0,0) = r;
         adt.block<3,3>(3,3) = r;
-        adt.block<3,3>(3,0) = skew_symmetric(p)*r;
+        adt.block<3,3>(3,0) = skew_symmetric(p) * r;
     }
     else
     {
@@ -247,7 +247,6 @@ praxis::expected<std::pair<Eigen::Vector6d, double>, praxis::refusal> matrix_log
     }
     s.head<3>() = w;
     s.tail<3>() = v;
-
     return std::pair<Eigen::Vector6d, double>(s, theta_radians);
 }
 
@@ -259,7 +258,7 @@ praxis::expected<std::pair<Eigen::Vector6d, double>, praxis::refusal> matrix_log
     double theta_radians;
     praxis::rotation r = rotation_matrix_from_transform(tf);
     Eigen::Vector3d p = tf.block<3,1>(0,3);
-    std::pair<Eigen::Vector6d, double> result=matrix_logarithm_se3_rp(r,p).value();
+    std::pair<Eigen::Vector6d, double> result = matrix_logarithm_se3_rp(r,p).value();
     s = result.first;
     theta_radians = result.second;
     return std::pair<Eigen::Vector6d, double>(s, theta_radians);
