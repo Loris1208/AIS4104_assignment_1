@@ -251,7 +251,7 @@ praxis::expected<std::pair<Eigen::Vector6d, double>, praxis::refusal> matrix_log
 }
 
 //TASK: 3p
-//REFERENCE:
+//REFERENCE: Definition (3.13) page 87 and algorithm in section 3.3.3.2 page 104, MR pre-print 2019
 praxis::expected<std::pair<Eigen::Vector6d, double>, praxis::refusal> matrix_logarithm_se3(const Eigen::Matrix4d &tf)
 {
     praxis::screw_axis s;
