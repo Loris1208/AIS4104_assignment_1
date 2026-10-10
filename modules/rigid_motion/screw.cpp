@@ -263,5 +263,6 @@ praxis::expected<std::pair<Eigen::Vector6d, double>, praxis::refusal> matrix_log
     theta_radians = result.second;
     return std::pair<Eigen::Vector6d, double>(s, theta_radians);
 }
+//pipi caca prout
 
 }
