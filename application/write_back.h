@@ -11,8 +11,11 @@
 #include <praxis/config/declaration.h>
 #include <praxis/config/configurable.h>
 
+#include <praxis/compat/expected.h>
+
 #include <span>
 #include <memory>
+#include <string>
 #include <vector>
 #include <cstdint>
 
@@ -36,7 +39,7 @@ public:
 
     bool anything_to_decide(std::span<const praxis::config::configurable *const> shown);
 
-    void resolve(praxis::scene::leaving_answer chosen, std::span<const praxis::config::configurable *const> shown);
+    praxis::expected<void, std::string> resolve(praxis::scene::leaving_answer chosen, std::span<const praxis::config::configurable *const> shown);
 
     void save(std::span<const praxis::config::configurable *const> shown);
 
@@ -47,9 +50,11 @@ private:
     leaving_choice m_remembered;
     document_store m_mine;
 
-    void write(std::vector<praxis::config::edit> changes);
+    praxis::expected<void, std::string> write(std::vector<praxis::config::edit> changes);
 
     void remember(leaving_choice chosen);
+
+    std::vector<praxis::config::edit> shown_now(std::span<const praxis::config::configurable *const> shown) const;
 };
 
 void install_write_back(praxis::scene::visualizer &view, const std::shared_ptr<write_back> &through);

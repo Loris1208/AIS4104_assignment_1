@@ -105,7 +105,7 @@ void require_state(const praxis::rigid_motion::capabilities &mixed, std::string_
 
 }
 
-TEST_CASE("every rigid-motion slot this project composes binds an implementation of its own", "[rigid_motion][evaluation]")
+TEST_CASE("every rigid-motion slot this project composes binds its own implementation", "[rigid_motion][evaluation]")
 {
     const praxis::rigid_motion::capabilities composed  = ais4104::rigid_motion::motions();
     const praxis::rigid_motion::capabilities reference = praxis::rigid_motion::baseline();

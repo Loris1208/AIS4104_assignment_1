@@ -50,9 +50,6 @@ praxis-preferences.xml
 # The arrangement documents a run writes for the scenarios it opens.
 arrangement-*.xml
 
-# The supplied chains a run writes for the scenarios that keep one.
-screw-table-*.xml
-
 # What the agent harness writes for itself.
 .claude/
 

@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.28)
 
-set(AIS4104_PRAXIS_GIT_TAG "f441ecd38063daf6336dfd4e48debb5f81576a41" CACHE STRING
-    "The praxis revision this project builds against, written as the full forty-character commit hash because praxis publishes no tags")
-set(AIS4104_CATCH2_GIT_TAG "v3.15.3" CACHE STRING
-    "The Catch2 release this project fetches, which is the release praxis pins for its own suite")
+set(AIS4104_PRAXIS_GIT_TAG "c0e70b6c6ecff8e98896192d3fba5a335ddd1e9e")
+set(AIS4104_CATCH2_GIT_TAG "v3.15.3")
 set(AIS4104_PREVIEW_FRAMES "0" CACHE STRING
     "How many frames a preview executable draws before it exits on its own; zero runs until the window is closed")
 set(CMAKE_OSX_DEPLOYMENT_TARGET "13.4" CACHE STRING
-    "The oldest macOS release this build may run on; below 13.4 the standard library withholds the floating-point to_chars that praxis writes its configuration through")
+    "The oldest macOS release this build may run on")
 
 project(ais4104_praxis LANGUAGES CXX)
 
@@ -25,12 +23,8 @@ if (AIS4104_CATCH2_GIT_TAG STREQUAL "")
     message(FATAL_ERROR "AIS4104_CATCH2_GIT_TAG must name the Catch2 release to fetch")
 endif ()
 
-set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-
 include(FetchContent)
 
-# Every target a fetched dependency declares inherits this folder, so an IDE groups the whole of
-# them under one node instead of listing them beside this project's own targets.
 set(CMAKE_FOLDER "Dependencies")
 
 FetchContent_Declare(
@@ -49,6 +43,37 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(praxis)
 
 unset(CMAKE_FOLDER)
+
+meios_declare_resource(
+    NAME kuka_experimental
+    URL https://github.com/ros-industrial/kuka_experimental/archive/8d9292b04a22628b1b78d989e2ddd3abb913bf92.tar.gz
+    HASH SHA256=02f299d967868fb32022617429ddede3a197fb8f18e09b88f88732e11a78bf79
+    STRIP_TOP_LEVEL
+)
+
+meios_declare_resource(
+    NAME ur_description
+    URL https://github.com/UniversalRobots/Universal_Robots_ROS2_Description/archive/refs/tags/4.3.1.tar.gz
+    HASH SHA256=3532a25c9942bedcdfe41c845be6d144bbbbcd76f179f14a53a3e7b6972ae72d
+    STRIP_TOP_LEVEL
+)
+
+meios_declare_resource(
+    NAME lbr_med14_r820_description
+    URL https://github.com/lbr-stack/med14_r820_description/archive/refs/tags/v2.5.0.tar.gz
+    HASH SHA256=edb596d3e2b7f07f5b8f66ef68cd3ccfef0212e98efe25742867cfbe653deb5a
+    STRIP_TOP_LEVEL
+)
+
+meios_declare_resource(
+    NAME course_licences
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/descriptions/licences"
+)
+
+meios_declare_resource(
+    NAME course_models
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/models"
+)
 
 list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
 include(Catch)

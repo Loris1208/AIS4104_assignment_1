@@ -176,7 +176,7 @@ void warned(const ais4104::graded_task &entry, const graded_row &row)
 
 }
 
-TEST_CASE("every graded rigid-motion task is exercised and reports its deviation from praxis's reference", "[.extended][rigid_motion][grading]")
+TEST_CASE("every graded rigid-motion task is exercised and reports its deviation", "[.extended][rigid_motion][grading]")
 {
     const std::vector<graded_row> &rows = graded_once();
     REQUIRE(rows.size() == ais4104::graded_tasks.size());
