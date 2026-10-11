@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="kr6r900sixx: biomechanics" scenario="tool and world object"/>
+
+    <description path="kuka_kr6_support/urdf/kr6r900sixx.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <hand_derived tool="kr6r900sixx_humerus"/>
+
+    <pose_target_window opens="true"/>
+
+    <initial>
+        <joint index="0" degrees="0"/>
+        <joint index="1" degrees="-45"/>
+        <joint index="2" degrees="90"/>
+        <joint index="3" degrees="90"/>
+        <joint index="4" degrees="-90"/>
+        <joint index="5" degrees="-60"/>
+    </initial>
+
+    <tool active="true" model="models/adapter-humerus.stl" view="kinematics_transform">
+        <graphics euler_order="ZYX">
+            <euler x="0" y="0" z="0"/>
+            <scale x="1" y="1" z="1"/>
+            <offset x="0" y="0" z="0"/>
+        </graphics>
+        <kinematics euler_order="ZYZ">
+            <euler x="-15" y="-90" z="-90"/>
+            <offset x="-0.1519" y="-0.0193" z="0.0421"/>
+        </kinematics>
+    </tool>
+
+    <world_object active="true" model="models/humerus-rig.stl" view="transform">
+        <scale x="0.83" y="0.83" z="0.93"/>
+        <offset x="0.882" y="0.18" z="0"/>
+        <euler_zyx x="0" y="0" z="0"/>
+    </world_object>
+
+    <robot_view model="Meshes" screw_axes="false" flange_frame="false" axis_reach="0"/>
+</arm>

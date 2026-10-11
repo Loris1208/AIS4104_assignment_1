@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <presets>
+        <preset name="kr6r900sixx-rod" document="kr6r900sixx-rod.xml"/>
+        <preset name="ur3e-kinematic-modeling" document="ur3e-kinematic-modeling.xml"/>
+        <preset name="ur3e-forward-kinematics" document="ur3e-forward-kinematics.xml"/>
+        <preset name="ur3e-velocity-kinematics" document="ur3e-velocity-kinematics.xml"/>
+        <preset name="lbr-med14-r820-velocity-kinematics" document="lbr-med14-r820-velocity-kinematics.xml"/>
+        <preset name="lbr-med14-r820-biomechanics" document="lbr-med14-r820-biomechanics.xml"/>
+    </presets>
+</application>

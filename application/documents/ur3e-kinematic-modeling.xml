@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="ur3e: kinematic modeling" scenario="supplied chain"/>
+
+    <description path="ur_description/urdf/ur.urdf.xacro" evaluation="fail" missing_asset="fail">
+        <argument index="0" name="ur_type" value="ur3e"/>
+        <argument index="1" name="name" value="ur3e"/>
+    </description>
+
+    <screw_table document="screw-table-ur3e.xml"/>
+
+    <initial>
+        <joint index="0" degrees="0"/>
+        <joint index="1" degrees="0"/>
+        <joint index="2" degrees="0"/>
+        <joint index="3" degrees="0"/>
+        <joint index="4" degrees="0"/>
+        <joint index="5" degrees="0"/>
+    </initial>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0"/>
+</arm>

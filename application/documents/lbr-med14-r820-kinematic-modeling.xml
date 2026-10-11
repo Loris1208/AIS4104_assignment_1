@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="lbr_med14_r820: kinematic modeling" scenario="supplied chain"/>
+
+    <description path="lbr_med14_r820_description/urdf/lbr_med14_r820.urdf.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <screw_table document="screw-table-lbr-med14-r820.xml"/>
+
+    <initial>
+        <joint index="0" degrees="0"/>
+        <joint index="1" degrees="0"/>
+        <joint index="2" degrees="0"/>
+        <joint index="3" degrees="0"/>
+        <joint index="4" degrees="0"/>
+        <joint index="5" degrees="0"/>
+        <joint index="6" degrees="0"/>
+    </initial>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0"/>
+</arm>

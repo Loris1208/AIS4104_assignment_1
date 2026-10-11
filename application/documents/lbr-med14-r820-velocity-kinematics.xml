@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="lbr_med14_r820: velocity kinematics" scenario="velocity kinematics"/>
+
+    <description path="lbr_med14_r820_description/urdf/lbr_med14_r820.urdf.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <initial>
+        <joint index="0" degrees="20"/>
+        <joint index="1" degrees="40"/>
+        <joint index="2" degrees="-30"/>
+        <joint index="3" degrees="-80"/>
+        <joint index="4" degrees="25"/>
+        <joint index="5" degrees="60"/>
+        <joint index="6" degrees="10"/>
+    </initial>
+
+    <velocity_kinematics frame="body" reading="velocity" angular="false" linear="true" columns="true" capped="true" ellipsoids="false"/>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0" flange_frame="false"/>
+</arm>

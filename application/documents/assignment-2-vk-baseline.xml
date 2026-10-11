@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <presets>
+        <preset name="kr6r900sixx-velocity-kinematics" document="kr6r900sixx-velocity-kinematics.xml"/>
+    </presets>
+</application>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="lbr_med14_r820: biomechanics" scenario="tool and world object"/>
+
+    <description path="lbr_med14_r820_description/urdf/lbr_med14_r820.urdf.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <tool_window opens="false"/>
+
+    <pose_window frames="flange"/>
+
+    <pose_target_window opens="true"/>
+
+    <initial>
+        <joint index="0" degrees="0"/>
+        <joint index="1" degrees="45"/>
+        <joint index="2" degrees="0"/>
+        <joint index="3" degrees="-75"/>
+        <joint index="4" degrees="90"/>
+        <joint index="5" degrees="90"/>
+        <joint index="6" degrees="-15"/>
+    </initial>
+
+    <tool active="true" model="models/adapter-humerus.stl" view="kinematics_transform">
+        <graphics euler_order="ZYX">
+            <euler x="0" y="-90" z="-90"/>
+            <scale x="1" y="1" z="1"/>
+            <offset x="0" y="0" z="0"/>
+        </graphics>
+        <kinematics euler_order="ZYZ">
+            <euler x="-105" y="-90" z="-90"/>
+            <offset x="-0.0193" y="0.1519" z="0.0421"/>
+        </kinematics>
+    </tool>
+
+    <world_object active="true" model="models/humerus-rig.stl" view="transform">
+        <scale x="1" y="1" z="0.94"/>
+        <offset x="0.884" y="0.236" z="0"/>
+        <euler_zyx x="0" y="0" z="0"/>
+    </world_object>
+
+    <robot_view model="Meshes" screw_axes="false" flange_frame="false" axis_reach="0"/>
+</arm>
