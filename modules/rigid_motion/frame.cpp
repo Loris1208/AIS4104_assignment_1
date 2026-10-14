@@ -88,7 +88,7 @@ Eigen::Vector3d euler_from_rotation_matrix(const Eigen::Matrix3d &r, praxis::axi
         e[1] = atan2(-r(2,0),sqrt(r(0,0) * r(0,0) + r(1,0) * r(1,0)));
         e[2] = atan2(r(2,1), r(2,2));
 
-        return e; //not sure
+        return e;
     }
 
     const std::array<std::uint8_t, 3> axes = praxis::axis_indices(order);

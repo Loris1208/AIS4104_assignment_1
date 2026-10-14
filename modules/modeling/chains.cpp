@@ -53,7 +53,7 @@ std::pair<Eigen::Matrix4d, std::vector<Eigen::Vector6d>> hardcoded_lbr_med14_r82
     Eigen::Vector3d v1, v2, v3, v4, v5, v6, v7;
     m << 1, 0, 0, 0,
         0, 1, 0, 0,
-        0, 0, 1, 1.30595,
+        0, 0, 1, 1.3055,
         0, 0, 0, 1;
     w1 = {0,0,1};
     w2 = {0, 1, 0};
@@ -68,7 +68,7 @@ std::pair<Eigen::Matrix4d, std::vector<Eigen::Vector6d>> hardcoded_lbr_med14_r82
     q4 = {0, 0, 0.7795};
     q5 = {0,0,0.9795};
     q6 = {0, 0, 1.1795};
-    q7 = {0,0,1.30595};
+    q7 = {0,0,1.3055};
     std::vector<Eigen::Vector3d> v = {v1,v2, v3, v4, v5,v6, v7};
     std::vector<Eigen::Vector3d> w = {w1,w2, w3, w4, w5,w6, w7};
     std::vector<Eigen::Vector3d> q = {q1, q2, q3, q4, q5, q6, q7};
