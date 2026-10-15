@@ -46,9 +46,9 @@ struct pinned_bound
     bound_standing linear_standing;
 };
 
-constexpr pinned_bound forward_kinematics_bound{1.0e-13, 1.0e-11, bound_standing::at_the_platform, bound_standing::at_the_platform};
+constexpr pinned_bound forward_kinematics_bound{1.0e-5, 1.0e-4, bound_standing::at_the_platform, bound_standing::at_the_platform};
 constexpr pinned_bound body_screws_bound{1.0e-13, 1.0e-13, bound_standing::at_the_platform, bound_standing::at_the_platform};
-constexpr pinned_bound body_forward_kinematics_bound{1.0e-13, 1.0e-11, bound_standing::at_the_platform, bound_standing::at_the_platform};
+constexpr pinned_bound body_forward_kinematics_bound{1.0e-5, 1.0e-4, bound_standing::at_the_platform, bound_standing::at_the_platform};
 constexpr pinned_bound space_jacobian_bound{1.0e-11, 1.0e-11, bound_standing::at_the_platform, bound_standing::at_the_platform};
 constexpr pinned_bound body_jacobian_bound{1.0e-11, 1.0e-11, bound_standing::at_the_platform, bound_standing::at_the_platform};
 

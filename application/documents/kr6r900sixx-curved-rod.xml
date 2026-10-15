@@ -24,7 +24,7 @@
             <offset x="0" y="0" z="0"/>
         </graphics>
         <kinematics euler_order="ZYX">
-            <euler x="0" y="0" z="0"/>
+            <euler x="0" y="90" z="0"/>
             <offset x="0.082" y="0" z="0.132"/>
         </kinematics>
     </tool>
