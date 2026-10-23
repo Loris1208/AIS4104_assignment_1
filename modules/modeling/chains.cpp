@@ -89,7 +89,7 @@ Eigen::Matrix4d hardcoded_kr6r900sixx_curved_rod_tool_offset(const praxis::rigid
     Eigen::Matrix4d tft;
     Eigen::Matrix3d r;
     Eigen::Vector3d p;
-    r = frames.rotate_x(0)*frames.rotate_y(0)*frames.rotate_z(0);
+    r = frames.rotate_x(0)*frames.rotate_y(std::numbers::pi/2)*frames.rotate_z(0);
     p = {0.082, 0 , 0.132};
     tft = frames.transformation_matrix_from_rotation_position(r,p);
     return tft;
@@ -101,8 +101,8 @@ Eigen::Matrix4d hardcoded_kr6r900sixx_humerus_tool_offset(const praxis::rigid_mo
     Eigen::Matrix4d tft;
     Eigen::Matrix3d r;
     Eigen::Vector3d p;
-    r = frames.rotate_x(0)*frames.rotate_y(0)*frames.rotate_z(0);
-    p = {0.082, 0 , 0.132};
+    r = frames.rotate_x(std::numbers::pi/2)*frames.rotate_y(-7*std::numbers::pi/12)*frames.rotate_z(0);
+    p = {-0.1519, -0.0193 , 0.0421};
     tft = frames.transformation_matrix_from_rotation_position(r,p);
     return tft;
 }
