@@ -83,7 +83,7 @@ std::pair<Eigen::Matrix4d, std::vector<Eigen::Vector6d>> hardcoded_lbr_med14_r82
 }
 
 //TASK: 3a
-//REFERENCE:
+//REFERENCE: Section (3.2.1.2) page 72, MR pre-print 2019
 Eigen::Matrix4d hardcoded_kr6r900sixx_curved_rod_tool_offset(const praxis::rigid_motion::frame_ops &frames)
 {
     Eigen::Matrix4d tft;
@@ -96,6 +96,7 @@ Eigen::Matrix4d hardcoded_kr6r900sixx_curved_rod_tool_offset(const praxis::rigid
 }
 
 //TASK: 3b
+//REFERENCE: Section (3.2.1.2) page 72, MR pre-print 2019
 Eigen::Matrix4d hardcoded_kr6r900sixx_humerus_tool_offset(const praxis::rigid_motion::frame_ops &frames)
 {
     Eigen::Matrix4d tft;
