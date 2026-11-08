@@ -21,12 +21,14 @@
 
 #include <spdlog/spdlog.h>
 
+#include <array>
 #include <format>
 #include <memory>
 #include <string>
 #include <vector>
 #include <utility>
 #include <optional>
+#include <algorithm>
 #include <filesystem>
 
 namespace ais4104 {
@@ -41,17 +43,10 @@ struct arm_routes
     praxis::presets::composed_route announced;
 };
 
-struct arm_halves
-{
-    praxis::manipulator::capabilities arm;
-    praxis::trajectory::capabilities shapes;
-    praxis::rigid_motion::capabilities motions;
-};
-
 struct arm_registration
 {
     arm_routes taken;
-    arm_halves halves;
+    offered_capabilities halves;
     std::vector<std::filesystem::path> roots;
     tool_offset_source offsets;
 };
@@ -96,21 +91,22 @@ praxis::manipulator::arm_composition modeling_keeping_nothing(praxis::presets::a
     return praxis::presets::arm_windows_modeling(std::move(chosen), praxis::presets::screw_table_source{});
 }
 
+constexpr std::array<std::pair<praxis::presets::arm_scenario_kind, arm_composer>, 8> offered_composers{{
+        {praxis::presets::arm_scenario_kind::forward_kinematics, &praxis::presets::arm_windows_forward},
+        {praxis::presets::arm_scenario_kind::tooling, &praxis::presets::arm_windows_tooling},
+        {praxis::presets::arm_scenario_kind::velocity_kinematics, &praxis::presets::arm_windows_velocity_kinematics},
+        {praxis::presets::arm_scenario_kind::supplied_chain, &modeling_keeping_nothing},
+        {praxis::presets::arm_scenario_kind::numerical_ik, &praxis::presets::arm_windows_numerical_ik},
+        {praxis::presets::arm_scenario_kind::point_to_point, &praxis::presets::arm_windows_point_to_point},
+        {praxis::presets::arm_scenario_kind::via_point, &praxis::presets::arm_windows_via_point},
+        {praxis::presets::arm_scenario_kind::path_comparison, &praxis::presets::arm_windows_path_comparison},
+}};
+
 arm_composer composer_named(praxis::presets::arm_scenario_kind kind)
 {
-    if(kind == praxis::presets::arm_scenario_kind::forward_kinematics)
-        return &praxis::presets::arm_windows_forward;
+    const auto offered = std::ranges::find(offered_composers, kind, &std::pair<praxis::presets::arm_scenario_kind, arm_composer>::first);
 
-    if(kind == praxis::presets::arm_scenario_kind::tooling)
-        return &praxis::presets::arm_windows_tooling;
-
-    if(kind == praxis::presets::arm_scenario_kind::velocity_kinematics)
-        return &praxis::presets::arm_windows_velocity_kinematics;
-
-    if(kind == praxis::presets::arm_scenario_kind::supplied_chain)
-        return &modeling_keeping_nothing;
-
-    return nullptr;
+    return offered == offered_composers.end() ? nullptr : offered->second;
 }
 
 arm_composer offered_composer(const praxis::config::location &at, const praxis::config::document &values, std::optional<praxis::presets::arm_scenario_kind> kind)
@@ -145,8 +141,8 @@ praxis::scene::preset_registry::factory arm_factory(std::string named, praxis::c
         praxis::manipulator::arm_composition composed = with_offered_pose_frames(
                 without_tool_window(with_hand_derived_tool_window(std::move(opened.windows), opened.opening, carried.values, over.offsets), carried.values), kind, carried.values);
 
-        const std::shared_ptr<praxis::scene::preset> built = praxis::presets::arm_preset(site, over.halves.arm, over.halves.shapes, over.halves.motions, opened.opening,
-                                                                                         composing(named, kind, opened.opening, carried.values, std::move(composed)));
+        const std::shared_ptr<praxis::scene::preset> built = praxis::presets::arm_preset(site, over.halves.arm, over.halves.shapes, over.halves.motions, over.halves.solving,
+                                                                                         opened.opening, composing(named, kind, opened.opening, carried.values, std::move(composed)));
         if(built != nullptr)
             over.taken.announced(opened.announced, opened.carried);
 
@@ -174,13 +170,12 @@ std::optional<std::string> register_one(const std::shared_ptr<praxis::scene::pre
 
 std::vector<std::string> register_offered_arms(const std::shared_ptr<praxis::scene::preset_registry> &registry, const document_store &mine, const praxis::config::document &values,
                                                const std::shared_ptr<write_back> &writing, const std::filesystem::path &packages, const std::filesystem::path &assets,
-                                               const praxis::manipulator::capabilities &arm, const praxis::trajectory::capabilities &shapes,
-                                               const praxis::rigid_motion::capabilities &motions, tool_offset_source offsets)
+                                               const offered_capabilities &offered, tool_offset_source offsets)
 {
     const std::vector<praxis::config::location> reading = preset_locations(values, mine);
     const arm_routes taken{[mine](const std::filesystem::path &named) { return mine.reading(named); }, [mine](const std::filesystem::path &named) { return mine.writing(named); },
                            [writing](const praxis::config::binding &at, const praxis::config::document &carried) { writing->composing(at, carried); }};
-    const arm_registration over{taken, {arm, shapes, motions}, {packages, assets}, offsets};
+    const arm_registration over{taken, offered, {packages, assets}, offsets};
 
     std::vector<std::string> registered;
     for(const praxis::config::location &at : reading)

@@ -1,5 +1,8 @@
 #include "arm.h"
+#include "shapes.h"
 #include "motions.h"
+#include "solving.h"
+#include "functions.h"
 #include "write_back.h"
 #include "offered_arms.h"
 #include "configuration.h"
@@ -7,11 +10,16 @@
 #include "arm_render_loop.h"
 #include "arm_slot_report.h"
 
+#include <praxis/presets/optimization.h>
+
 #include <praxis/manipulator/capabilities.h>
 
 #include <praxis/trajectory/capabilities.h>
 
 #include <praxis/rigid_motion/capabilities.h>
+
+#include <praxis/optimization/problem.h>
+#include <praxis/optimization/capabilities.h>
 
 #include <praxis/scene/log_buffer.h>
 #include <praxis/scene/visualizer.h>
@@ -27,6 +35,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 #include <optional>
 #include <filesystem>
 #include <system_error>
@@ -45,6 +54,33 @@ namespace {
 constexpr int renderer_unavailable = 3;
 
 constexpr const char *layout_document = "imgui.ini";
+
+template<typename Registered>
+std::vector<Registered> joined(std::vector<Registered> first, const std::vector<Registered> &second)
+{
+    first.insert(first.end(), second.begin(), second.end());
+
+    return first;
+}
+
+template<typename Registered>
+std::vector<Registered> under_form(const std::vector<Registered> &offered, praxis::optimization::problem_form form)
+{
+    std::vector<Registered> tagged;
+    tagged.reserve(offered.size());
+    for(const Registered &one : offered)
+        tagged.push_back(one.offered_under({form}));
+
+    return tagged;
+}
+
+registered_functions under_their_forms(const offered_function_forms &offered)
+{
+    using praxis::optimization::problem_form;
+
+    return {joined(under_form(offered.root.curves, problem_form::root), under_form(offered.minimum.curves, problem_form::minimum)),
+            joined(under_form(offered.root.surfaces, problem_form::root), under_form(offered.minimum.surfaces, problem_form::minimum))};
+}
 
 std::filesystem::path persistent_directory(const std::filesystem::path &beside)
 {
@@ -93,15 +129,29 @@ praxis::config::outcome preferences_read(const praxis::config::binding &prefs)
     return preferred;
 }
 
+std::vector<std::string> composed_functions(const std::shared_ptr<praxis::scene::preset_registry> &registry, const document_store &mine, const praxis::config::document &values,
+                                            const std::shared_ptr<write_back> &writing, const praxis::optimization::capabilities &solving)
+{
+    constexpr bool checks_derivative   = true;
+    const registered_functions offered = under_their_forms(offered_functions());
+
+    return praxis::presets::register_optimization(
+            registry, function_locations(values, mine), [mine](const std::filesystem::path &named) { return mine.reading(named); },
+            [writing](const praxis::config::binding &at, const praxis::config::document &carried) { writing->composing(at, carried); }, solving, offered.curves, offered.surfaces,
+            checks_derivative);
+}
+
 std::vector<std::string> composed_arms(const std::shared_ptr<praxis::scene::preset_registry> &registry, const document_store &mine, const praxis::config::document &values,
                                        const std::shared_ptr<write_back> &writing, const std::filesystem::path &beside)
 {
-    const praxis::manipulator::capabilities arm      = offered_arm();
-    const praxis::trajectory::capabilities shapes    = praxis::trajectory::baseline();
-    const praxis::rigid_motion::capabilities motions = offered_motions();
+    const offered_capabilities offered{offered_arm(), offered_shapes(), offered_motions(), offered_solving()};
 
-    const std::vector<std::string> opened = announce(register_offered_arms(registry, mine, values, writing, beside / "urdf", beside, arm, shapes, motions, offered_tool_offsets()));
-    report_arm_slot_state(arm);
+    std::vector<std::string> registered      = register_offered_arms(registry, mine, values, writing, beside / "urdf", beside, offered, offered_tool_offsets());
+    const std::vector<std::string> functions = composed_functions(registry, mine, values, writing, offered.solving);
+    registered.insert(registered.end(), functions.begin(), functions.end());
+
+    const std::vector<std::string> opened = announce(std::move(registered));
+    report_arm_slot_state(offered.arm, offered.shapes, offered.solving, offered_owned_slots());
 
     return opened;
 }

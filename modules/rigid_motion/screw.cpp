@@ -221,7 +221,6 @@ praxis::expected<std::pair<Eigen::Vector3d, double>, praxis::refusal> matrix_log
         Eigen::Matrix3d skew_w = 1.0/(2.0 * std::sin(theta_radians))*(r - r.transpose());
         w = from_skew_symmetric(skew_w);
     }
-    //return praxis::unexpected(praxis::refusal::not_implemented);
     return std::pair<Eigen::Vector3d, double>(w, theta_radians); //problem here with praxis::refusal w = praxis::refusal::no_solution;
 }
 

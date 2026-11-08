@@ -38,6 +38,9 @@ ais4104_target_warnings(ais4104_application)
 
 add_library(ais4104_arm_application STATIC
     arm.h
+    shapes.h
+    solving.h
+    functions.h
 
     offered_arms.h
     offered_arms.cpp
@@ -59,14 +62,18 @@ add_library(ais4104_arm_application STATIC
     jacobian_displacement.cpp
     jacobian_jog_window.h
     jacobian_jog_window.cpp
+    root_finding.h
+    root_finding.cpp
+    minimization.h
+    minimization.cpp
 )
 
 add_library(ais4104::arm_application ALIAS ais4104_arm_application)
 
 target_include_directories(ais4104_arm_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ais4104_arm_application PUBLIC ais4104::application ais4104::modules::modeling praxis::manipulator_presets praxis::manipulator praxis::trajectory praxis::evaluation
-    spdlog::spdlog)
+target_link_libraries(ais4104_arm_application PUBLIC ais4104::application ais4104::modules::modeling praxis::manipulator_presets praxis::optimization_presets praxis::manipulator
+    praxis::trajectory praxis::optimization praxis::evaluation spdlog::spdlog)
 
 target_compile_definitions(ais4104_arm_application PRIVATE AIS4104_PREVIEW_FRAMES=${AIS4104_PREVIEW_FRAMES})
 

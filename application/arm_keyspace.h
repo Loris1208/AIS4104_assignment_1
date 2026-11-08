@@ -5,14 +5,15 @@
 
 namespace ais4104 {
 
-// praxis's arm keyspace, with the fallback of every key the four mode-carrying windows write set to
+// praxis's arm keyspace, with the fallback of every key the six mode-carrying windows write set to
 // what they write when opened in Preview: a document stating no mode opens in Preview, and a
-// document stating one keeps it. The keyspace also declares hand_derived/tool, the name of the
-// function in modules/modeling/chains.cpp a document's tool center point comes from,
-// tool_window/opens, false where a document's preset opens no Tool window, pose_window/frames,
-// the frames a forward kinematics or tooling preset's Pose window reads: flange, tool or both, the
-// default, and pose_target_window/opens, true where a tooling document's preset opens a Pose target
-// window beside Tool frame motion.
+// document stating one keeps it. The six are Joint control, Pose target, Tool frame motion, Screw
+// displacement and the inverse kinematics Solutions and Iterations. The keyspace also declares
+// hand_derived/tool, the name of the function in modules/modeling/chains.cpp a document's tool
+// center point comes from, tool_window/opens, false where a document's preset opens no Tool window,
+// pose_window/frames, the frames a forward kinematics or tooling preset's Pose window reads: flange,
+// tool or both, the default, and pose_target_window/opens, true where a tooling document's preset
+// opens a Pose target window beside Tool frame motion.
 praxis::config::declaration assignment_arm_keyspace();
 
 }

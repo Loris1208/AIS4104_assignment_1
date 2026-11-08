@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-set(AIS4104_PRAXIS_GIT_TAG "ff1afd368d8f0642849073dd5fdb78d504eb10fe")
+set(AIS4104_PRAXIS_GIT_TAG "49f76cfd4efee600450d0a8a682e3e26324f099a")
 set(AIS4104_CATCH2_GIT_TAG "v3.15.3")
 set(AIS4104_PREVIEW_FRAMES "0" CACHE STRING
     "How many frames a preview executable draws before it exits on its own; zero runs until the window is closed")

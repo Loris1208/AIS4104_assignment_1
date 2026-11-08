@@ -27,8 +27,9 @@ praxis::scene::severity preferred_level(const praxis::config::document &values);
 
 std::vector<praxis::config::edit> preferences_edits(const praxis::scene::visualizer::geometry &left, praxis::scene::severity level);
 
-inline constexpr const char *preset_instances = "presets/preset";
-inline constexpr const char *document_leaf    = "document";
+inline constexpr const char *preset_instances   = "presets/preset";
+inline constexpr const char *function_instances = "functions/preset";
+inline constexpr const char *document_leaf      = "document";
 
 praxis::config::declaration application_keyspace();
 
@@ -37,6 +38,8 @@ std::vector<std::string> preset_keys(const praxis::config::document &values);
 praxis::expected<praxis::config::location, praxis::config::error> preset_document(const praxis::config::document &values, const std::string &key, const document_store &mine);
 
 std::vector<praxis::config::location> preset_locations(const praxis::config::document &values, const document_store &mine);
+
+std::vector<praxis::config::location> function_locations(const praxis::config::document &values, const document_store &mine);
 
 }
 

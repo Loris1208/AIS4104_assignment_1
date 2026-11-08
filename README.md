@@ -89,7 +89,7 @@ Then, select the modules/ folder and click `Include recursively`.
 </p>
 
 Similarly, to ensure documentation and assignment scaffolding files are omitted, select all folders, untick modules/ and click `Exclude recursively`. 
-The configuration should be color highlighted as shown below. Afterwards, in the TODO-window, you should see 38 items under "Tasks" spread over five files, `modules/forward_kinematics/kinematics.cpp`, `modules/modeling/chains.cpp`, `modules/rigid_motion/frame.cpp`, `modules/rigid_motion/screw.cpp` and `modules/velocity_kinematics/jacobian.cpp`.
+The configuration should be color highlighted as shown below. Afterwards, in the TODO-window, you should see 53 items under "Tasks" spread over ten files: 38 from assignments 1 and 2 in `modules/forward_kinematics/kinematics.cpp`, `modules/modeling/chains.cpp`, `modules/rigid_motion/frame.cpp`, `modules/rigid_motion/screw.cpp` and `modules/velocity_kinematics/jacobian.cpp`, and 15 from assignment 3 in `modules/optimization/solvers.cpp`, `modules/inverse_kinematics/end_effector_frames.cpp`, `modules/trajectory_generation/path.cpp`, `modules/trajectory_generation/time_scaling.cpp` and `modules/trajectory_generation/via_points.cpp`.
 <p float="left">
 <img src="docs/todo-plugin-3.png" width="600" />
 </p>
@@ -138,7 +138,7 @@ Project`. If a download was cut off, delete `build/` or `cmake-build-*` and conf
 
 ## Which executable is which
 
-A build produces six preset executables. Each opens a window on one topic, and its name says whose
+A build produces twelve preset executables. Each opens a window on one topic, and its name says whose
 mathematics it runs on.
 
 **Rigid motions**
@@ -156,11 +156,22 @@ mathematics it runs on.
 | `assignment_2_fk_baseline` | your forward kinematics over reference rigid motions |
 | `assignment_2_vk_baseline` | your velocity kinematics over reference code beneath it |
 
+**Assignment 3**
+
+| Target | Whose code it runs |
+|---|---|
+| `assignment_3_presets` | your code throughout, Assignments 1 to 3 |
+| `assignment_3_ik_baseline` | your Newton-Raphson, gradient descent and inverse kinematics over reference code beneath it |
+| `assignment_3_tg_baseline` | your trajectory generation over reference code beneath it, reference inverse kinematics included |
+
 **Exercises**
 
 | Target | Whose code it runs |
 |---|---|
 | `exercise_fk_vk_presets` | reference throughout |
+| `exercise_opt_presets` | reference throughout |
+| `exercise_ik_presets` | reference throughout |
+| `exercise_tg_presets` | reference throughout |
 
 `rigid_motion_presets` runs on reference code throughout, over the same scenarios as
 `assignment_1_presets`, so you can see how the topic should behave. `exercise_fk_vk_presets` runs on reference
@@ -187,10 +198,10 @@ Point several build trees at one directory and they download the descriptions on
 cmake --preset default -DMEIOS_RESOURCE_CACHE_DIR=/path/to/shared/resources
 ```
 
-The descriptions, their licence texts and the course's own models are copied beside the four
-executables that open an arm — `exercise_fk_vk_presets`, `assignment_2_presets`, `assignment_2_fk_baseline`
-and `assignment_2_vk_baseline` — as each of them builds, and each looks for them beside itself. Run one
-from anywhere and it finds them; copy the binary somewhere without its neighbours and you will not
+The descriptions, their licence texts and the course's own models are copied beside every
+executable that opens an arm — `exercise_fk_vk_presets`, `assignment_2_presets`, `assignment_2_fk_baseline`,
+`assignment_2_vk_baseline` and those named under Assignment 3 below — as each of them builds, and
+each looks for them beside itself. Run one from anywhere and it finds them; copy the binary somewhere without its neighbours and you will not
 see an arm. The two rigid-motion previews, `rigid_motion_presets` and `assignment_1_presets`, draw
 no robot, so they carry none of this and need none.
 
@@ -202,3 +213,82 @@ does not pick the new one up, and the first sign is usually a compile error nami
 never touched.
 
 Delete the build directory and configure again. A fresh clone is never affected.
+
+## Assignment 3
+
+All your code in this assignment should land inside
+`modules/optimization/solvers.cpp`,
+`modules/inverse_kinematics/end_effector_frames.cpp`,
+`modules/trajectory_generation/time_scaling.cpp`,
+`modules/trajectory_generation/path.cpp` or
+`modules/trajectory_generation/via_points.cpp`.
+
+| Target | Whose code it runs |
+|---|---|
+| `assignment_3_presets` | your code throughout, Assignments 1 to 3 |
+| `assignment_3_ik_baseline` | your Newton-Raphson, gradient descent and inverse kinematics over reference code beneath it |
+| `assignment_3_tg_baseline` | your trajectory generation over reference code beneath it, reference inverse kinematics included |
+| `exercise_opt_presets` | reference throughout, the Newton-Raphson and gradient descent exercises used in class |
+| `exercise_ik_presets` | reference throughout, the inverse kinematics exercises used in class |
+| `exercise_tg_presets` | reference throughout, the trajectory generation exercises used in class |
+
+Before you write anything, the start-up log names every operation of this assignment that the
+executable runs and that has not been written yet. In
+`assignment_3_presets` and `assignment_3_ik_baseline`, the inverse kinematics windows command
+nothing, and in `assignment_3_presets` the path comparison window draws no path, until
+`tool_pose_from_flange_pose`, `flange_pose_from_tool_pose`, `position_from_pose` and
+`orientation_from_pose` in `end_effector_frames.cpp` are written. The inverse kinematics presets open
+in Preview.
+In `assignment_3_presets` the arm moves to an inverse kinematics solution only once
+`segment_coefficients` and `segment_sample` in `via_points.cpp` are written too;
+`assignment_3_ik_baseline` moves it with reference trajectory code.
+In both, the inverse kinematics is solved by your `newton_raphson` in
+`modules/optimization/solvers.cpp`, on the body-frame error and Jacobian of Modern Robotics,
+section 6.2.2.
+
+The two presets in `assignment_3_presets` with no robot are Newton-Raphson, which finds a root of
+x^3 - 2x - 5, and Gradient descent, which minimizes (x - 1)^2. They run your `newton_raphson` and
+`gradient_descent` in `modules/optimization/solvers.cpp`. The Function list of Newton-Raphson offers
+x^3 - 2x - 5 and atan(x), and that of Gradient descent offers (x - 1)^2 and x^4 - 3x^2 + x.
+`assignment_3_ik_baseline` offers both beside its inverse kinematics presets, Newton-Raphson on your
+`newton_raphson` and Gradient descent on your `gradient_descent`; `assignment_3_tg_baseline` offers neither.
+`exercise_opt_presets` runs the reference of both on further functions of one or two variables.
+
+All of these but `exercise_opt_presets` carry the robot descriptions beside themselves, as the
+Assignment 2 ones do. `exercise_tg_presets` carries only the UR3e's description.
+`exercise_opt_presets` draws no robot, so it carries none of them and needs none.
+
+## Updating from assignment 2
+
+- `AIS4104-assignment-3-delta.zip` holds everything assignment 3 adds and changes. Unzip it into the folder holding
+  your assignment 2 project, the one with `CMakeLists.txt` in it, replacing the files already there.
+- `modules/rigid_motion/frame.cpp`, `modules/rigid_motion/screw.cpp`, `modules/modeling/chains.cpp`,
+  `modules/forward_kinematics/kinematics.cpp` and `modules/velocity_kinematics/jacobian.cpp` and their five headers
+  are not in the archive and stay as you left them from assignments 1 and 2 <b>BUT DO MAKE A BACKUP JUST IN CASE</b>.
+- On Windows, right-click the archive and choose Extract All. Change the destination to your assignment 2 folder,
+  and choose to replace the files in the destination when asked.
+- On macOS and Linux, open a terminal in your assignment 2 folder and run `unzip -o` followed by the path to the
+  archive. On macOS, do not drag an extracted folder onto the old one in Finder: replacing a folder there deletes
+  everything it held.
+- Then delete the build directory (`build/` or `cmake-build-*`) and configure again.
+- If you unzip assignment 3 over your project again, you will overwrite your code in the five assignment 3 files and
+  their headers.
+
+## Assignment 3 tasks
+
+| Task | Function | File |
+|---|---|---|
+| T.1a | `newton_raphson` | `modules/optimization/solvers.cpp` |
+| T.1b | `gradient_descent` | `modules/optimization/solvers.cpp` |
+| T.2a | `tool_pose_from_flange_pose` | `modules/inverse_kinematics/end_effector_frames.cpp` |
+| T.2b | `flange_pose_from_tool_pose` | `modules/inverse_kinematics/end_effector_frames.cpp` |
+| T.2c | `position_from_pose` and `orientation_from_pose` | `modules/inverse_kinematics/end_effector_frames.cpp` |
+| T.2d | `ik_solve_flange_pose` | `modules/inverse_kinematics/end_effector_frames.cpp` |
+| T.2e | `ik_solve_pose` | `modules/inverse_kinematics/end_effector_frames.cpp` |
+| T.3a | `joint_straight_line` | `modules/trajectory_generation/path.cpp` |
+| T.3b | `screw` | `modules/trajectory_generation/path.cpp` |
+| T.3c | `decoupled` | `modules/trajectory_generation/path.cpp` |
+| T.4a | `cubic` | `modules/trajectory_generation/time_scaling.cpp` |
+| T.4b | `quintic` | `modules/trajectory_generation/time_scaling.cpp` |
+| T.5a | `segment_coefficients` | `modules/trajectory_generation/via_points.cpp` |
+| T.5b | `segment_sample` | `modules/trajectory_generation/via_points.cpp` |

@@ -89,6 +89,13 @@ std::shared_ptr<praxis::scene::imgui_window> joint_position_window(const praxis:
     return std::make_shared<praxis::scene::labeled_value_window>("Joint positions", nullptr, [seen = built.seen] { return joint_positions(seen.read()); });
 }
 
+bool keeps_composed_windows(praxis::presets::arm_scenario_kind kind)
+{
+    return kind == praxis::presets::arm_scenario_kind::supplied_chain || kind == praxis::presets::arm_scenario_kind::numerical_ik ||
+            kind == praxis::presets::arm_scenario_kind::point_to_point || kind == praxis::presets::arm_scenario_kind::via_point ||
+            kind == praxis::presets::arm_scenario_kind::path_comparison;
+}
+
 // An empty list is the inner composer having declined.
 void append_jogs(composed_windows &opened, const praxis::manipulator::arm_window_inputs &built, const praxis::presets::arm_scenario &state, praxis::presets::arm_scenario_kind kind,
                  bool pose_target)
@@ -96,7 +103,7 @@ void append_jogs(composed_windows &opened, const praxis::manipulator::arm_window
     if(opened.empty())
         return;
 
-    if(kind == praxis::presets::arm_scenario_kind::supplied_chain)
+    if(keeps_composed_windows(kind))
         return;
 
     const shared_pose edited = std::make_shared<praxis::manipulator::edited_pose>(state.tool_pose);

@@ -47,6 +47,39 @@ void append(std::vector<praxis::config::edit> &changes, const char *key, const s
         changes.push_back(praxis::config::edit{key, std::to_string(*value)});
 }
 
+void declare_documents(praxis::config::declaration &shape, const char *group, const char *instances)
+{
+    shape.group(group).collection(instances, "name");
+    shape.field(std::string(instances) + "/" + document_leaf, praxis::config::field_kind::text, "");
+}
+
+praxis::expected<praxis::config::location, praxis::config::error> document_of(const praxis::config::document &values, const char *instances, const std::string &key,
+                                                                              const document_store &mine)
+{
+    const praxis::expected<std::string, praxis::config::error> addressed = values.key(instances, key, document_leaf);
+    if(!addressed)
+        return praxis::unexpected(addressed.error());
+
+    const praxis::expected<std::string, praxis::config::error> named = values.text(addressed.value());
+    if(!named)
+        return praxis::unexpected(named.error());
+
+    return mine.reading(named.value());
+}
+
+std::vector<praxis::config::location> locations_of(const praxis::config::document &values, const char *instances, const document_store &mine)
+{
+    std::vector<praxis::config::location> reading;
+    for(const std::string &key : values.identities(instances))
+    {
+        const praxis::expected<praxis::config::location, praxis::config::error> at = document_of(values, instances, key, mine);
+        if(at && !at.value().given.empty())
+            reading.push_back(at.value());
+    }
+
+    return reading;
+}
+
 }
 
 praxis::config::declaration preferences_keyspace()
@@ -101,8 +134,8 @@ std::vector<praxis::config::edit> preferences_edits(const praxis::scene::visuali
 praxis::config::declaration application_keyspace()
 {
     praxis::config::declaration shape("application");
-    shape.group("presets").collection(preset_instances, "name");
-    shape.field(std::string(preset_instances) + "/" + document_leaf, praxis::config::field_kind::text, "");
+    declare_documents(shape, "presets", preset_instances);
+    declare_documents(shape, "functions", function_instances);
 
     return shape;
 }
@@ -114,28 +147,17 @@ std::vector<std::string> preset_keys(const praxis::config::document &values)
 
 praxis::expected<praxis::config::location, praxis::config::error> preset_document(const praxis::config::document &values, const std::string &key, const document_store &mine)
 {
-    const praxis::expected<std::string, praxis::config::error> addressed = values.key(preset_instances, key, document_leaf);
-    if(!addressed)
-        return praxis::unexpected(addressed.error());
-
-    const praxis::expected<std::string, praxis::config::error> named = values.text(addressed.value());
-    if(!named)
-        return praxis::unexpected(named.error());
-
-    return mine.reading(named.value());
+    return document_of(values, preset_instances, key, mine);
 }
 
 std::vector<praxis::config::location> preset_locations(const praxis::config::document &values, const document_store &mine)
 {
-    std::vector<praxis::config::location> reading;
-    for(const std::string &key : preset_keys(values))
-    {
-        const praxis::expected<praxis::config::location, praxis::config::error> at = preset_document(values, key, mine);
-        if(at && !at.value().given.empty())
-            reading.push_back(at.value());
-    }
+    return locations_of(values, preset_instances, mine);
+}
 
-    return reading;
+std::vector<praxis::config::location> function_locations(const praxis::config::document &values, const document_store &mine)
+{
+    return locations_of(values, function_instances, mine);
 }
 
 }

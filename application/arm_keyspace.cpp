@@ -6,9 +6,12 @@
 #include <praxis/manipulator/control_mode.h>
 #include <praxis/manipulator/tool_jog_window.h>
 #include <praxis/manipulator/screw_jog_window.h>
+#include <praxis/manipulator/ik_iterate_window.h>
 #include <praxis/manipulator/task_space_window.h>
+#include <praxis/manipulator/ik_solutions_window.h>
 #include <praxis/manipulator/joint_control_window.h>
 #include <praxis/manipulator/control_configuration.h>
+#include <praxis/manipulator/kinematics_configuration.h>
 
 #include <praxis/config/writer.h>
 #include <praxis/config/declaration.h>
@@ -36,6 +39,8 @@ std::vector<praxis::config::edit> opened_in_preview()
     std::ranges::copy(manipulator::write_task_space(task_space, paths::task_space), std::back_inserter(written));
     std::ranges::copy(manipulator::write_tool_jog(manipulator::tool_jog_window::settings{control_mode::preview}, paths::tool_jog), std::back_inserter(written));
     std::ranges::copy(manipulator::write_screw_jog(manipulator::screw_jog_window::settings{control_mode::preview}, paths::screw_jog), std::back_inserter(written));
+    std::ranges::copy(manipulator::write_ik_solutions(manipulator::ik_solutions_window::settings{control_mode::preview}, paths::ik_solutions), std::back_inserter(written));
+    std::ranges::copy(manipulator::write_ik_iterates(manipulator::ik_iterate_window::settings{0u, control_mode::preview}, paths::ik_iterates), std::back_inserter(written));
 
     return written;
 }
