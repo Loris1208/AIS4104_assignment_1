@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optimization>
+    <preset name="Minimization: surface" scenario="surface"/>
+    <function name="(x^2 + 10y^2) / 2"/>
+    <range x_lower="-3" x_upper="3" y_lower="-3" y_upper="3"/>
+    <seed x="2.5" y="1"/>
+    <solve limit="5000" step="0" form="minimum" method="gradient_descent" step_length="0.18"/>
+</optimization>

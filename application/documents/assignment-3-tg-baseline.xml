@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <presets>
+        <preset name="kr6r900sixx-point-to-point" document="kr6r900sixx-point-to-point.xml"/>
+        <preset name="lbr-med14-r820-point-to-point" document="lbr-med14-r820-point-to-point.xml"/>
+        <preset name="kr6r900sixx-via-points" document="kr6r900sixx-via-points.xml"/>
+        <preset name="kr6r900sixx-path-comparison" document="kr6r900sixx-path-comparison.xml"/>
+        <preset name="lbr-med14-r820-path-comparison" document="lbr-med14-r820-path-comparison.xml"/>
+    </presets>
+</application>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <presets>
+        <preset name="ur3e-point-to-point" document="ur3e-point-to-point.xml"/>
+        <preset name="ur3e-path-comparison" document="ur3e-path-comparison.xml"/>
+        <preset name="ur3e-trapezoidal" document="ur3e-trapezoidal.xml"/>
+        <preset name="ur3e-via-points" document="ur3e-via-points.xml"/>
+    </presets>
+</application>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="lbr_med14_r820: redundant manipulator" scenario="numerical inverse kinematics"/>
+
+    <description path="lbr_med14_r820_description/urdf/lbr_med14_r820.urdf.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <initial>
+        <joint index="0" degrees="20"/>
+        <joint index="1" degrees="40"/>
+        <joint index="2" degrees="-30"/>
+        <joint index="3" degrees="-80"/>
+        <joint index="4" degrees="25"/>
+        <joint index="5" degrees="60"/>
+        <joint index="6" degrees="10"/>
+    </initial>
+
+    <tool_pose euler_order="ZYX">
+        <position x="0.108113" y="-0.335089" z="0.202910"/>
+        <euler x="95.9290" y="-41.6487" z="-104.1187"/>
+    </tool_pose>
+
+    <ik_seeds>
+        <start index="1" joints="0.14281811767969832 1.9461318764543485 -1.488859530664866 -2.0247053379179905 0.6949910281481206 1.1192790144128513 -0.9499778984743007"/>
+        <start index="2" joints="0.08897112830710924 1.8324560563286654 -1.3990538362276435 -2.0247053379179905 0.5468434741594038 1.1057859813522246 -0.7999032281967877"/>
+        <start index="3" joints="-0.28795779730101445 1.0367253154488822 -0.7704139751670849 -2.0247053379179905 -0.4901894037616139 1.0113347499278371 0.2506194637458038"/>
+        <start index="4" joints="-0.3418047866736036 0.9230494953231987 -0.6806082807298621 -2.0247053379179905 -0.6383369577503308 0.9978417168672103 0.400694134023317"/>
+        <start index="5" joints="-0.39565177604619267 0.8093736751975155 -0.5908025862926395 -2.0247053379179905 -0.7864845117390475 0.9843486838065836 0.5507688043008301"/>
+    </ik_seeds>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0" flange_frame="false"/>
+</arm>

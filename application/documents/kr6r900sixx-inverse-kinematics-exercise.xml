@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="kr6r900sixx: inverse kinematics" scenario="numerical inverse kinematics"/>
+
+    <description path="kuka_kr6_support/urdf/kr6r900sixx.xacro" evaluation="fail" missing_asset="fail"/>
+
+    <initial>
+        <joint index="0" degrees="0"/>
+        <joint index="1" degrees="-45"/>
+        <joint index="2" degrees="90"/>
+        <joint index="3" degrees="90"/>
+        <joint index="4" degrees="-90"/>
+        <joint index="5" degrees="-60"/>
+    </initial>
+
+    <tool_pose euler_order="ZYX">
+        <position x="0.158209" y="0.372858" z="0.552603"/>
+        <euler x="93.6978" y="146.9697" z="-76.6171"/>
+    </tool_pose>
+
+    <ik_seeds>
+        <start index="1" joints="0 -0.7853981633974483 1.5707963267948966 1.5707963267948966 -1.5707963267948966 -1.0471975511965976"/>
+        <start index="2" joints="-2.920699420134261 -1.590188874039278 2.221734324618702 -1.9692198849032232 1.5058873876711405 2.8069851520240165"/>
+        <start index="3" joints="1.900772638500075 -2.317409395703582 -1.978784492741091 1.7493999907744904 1.5405054885371436 1.877519869896859"/>
+        <start index="4" joints="-1.3212687852988323 -1.5578679619653089 -0.9691185017793793 -0.7602104671951979 0.5051095626357744 -0.5734085817430619"/>
+        <start index="5" joints="-2.356194490192345 -0.34906585039886606 1.884955592153876 0.44879895051282737 -0.8567979964335799 -1.208304866765305"/>
+        <start index="6" joints="2.5961772623415653 -2.1234839232597675 -1.5163420541326733 -1.9875382094139509 -0.53658056342305 -2.1377701488924625"/>
+        <start index="7" joints="-0.7853981633974483 -1.7453292519943295 -1.6336281798666925 2.2439947525641375 0.2855993321445264 -0.24166097335306086"/>
+        <start index="8" joints="2.356194490192345 0.34906585039886606 -0.37699111843077515 -3.0133643820146996 0.8567979964335799 0.24166097335306155"/>
+    </ik_seeds>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0" flange_frame="false"/>
+</arm>

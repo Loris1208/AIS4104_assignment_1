@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="ur3e: trapezoidal" scenario="point to point motion"/>
+
+    <description path="ur_description/urdf/ur.urdf.xacro" evaluation="fail" missing_asset="fail">
+        <argument index="0" name="ur_type" value="ur3e"/>
+        <argument index="1" name="name" value="ur3e"/>
+    </description>
+
+    <initial>
+        <joint index="0" degrees="30"/>
+        <joint index="1" degrees="-70"/>
+        <joint index="2" degrees="90"/>
+        <joint index="3" degrees="-110"/>
+        <joint index="4" degrees="-90"/>
+        <joint index="5" degrees="45"/>
+    </initial>
+
+    <parameters time_scaling="Trapezoidal" path_rate="0.75" path_rate_change="2.0"/>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0" flange_frame="false"/>
+</arm>

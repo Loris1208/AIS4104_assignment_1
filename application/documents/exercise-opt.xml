@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <functions>
+        <preset name="root-finding" document="root-finding.xml"/>
+        <preset name="zero-set" document="zero-set.xml"/>
+        <preset name="minimization-curve" document="minimization-curve.xml"/>
+        <preset name="minimization-surface" document="minimization-surface.xml"/>
+    </functions>
+</application>

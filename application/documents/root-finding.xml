@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<optimization>
+    <preset name="Root finding" scenario="curve"/>
+    <function name="1 - x^2"/>
+    <range x_lower="-3" x_upper="3"/>
+    <seed x="3"/>
+    <solve limit="200" step="0"/>
+</optimization>

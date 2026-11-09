@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arm>
+    <preset name="ur3e: inverse kinematics" scenario="numerical inverse kinematics"/>
+
+    <description path="ur_description/urdf/ur.urdf.xacro" evaluation="fail" missing_asset="fail">
+        <argument index="0" name="ur_type" value="ur3e"/>
+        <argument index="1" name="name" value="ur3e"/>
+    </description>
+
+    <initial>
+        <joint index="0" degrees="30"/>
+        <joint index="1" degrees="-70"/>
+        <joint index="2" degrees="90"/>
+        <joint index="3" degrees="-110"/>
+        <joint index="4" degrees="-90"/>
+        <joint index="5" degrees="45"/>
+    </initial>
+
+    <tool_pose euler_order="ZYX">
+        <position x="-0.073632" y="0.367840" z="0.020318"/>
+        <euler x="151.2655" y="147.1906" z="-20.3995"/>
+    </tool_pose>
+
+    <ik_seeds>
+        <start index="1" joints="0.5235987755982988 -1.2217304763960306 1.5707963267948966 -1.9198621771937625 -1.5707963267948966 0.7853981633974483"/>
+        <start index="2" joints="0 -1.0471975511965979 -1.8849555921538759 -2.243994752564138 -2.5703939893007397 -2.658270706883671"/>
+        <start index="3" joints="-1.5707963267948966 1.0471975511965974 -0.6283185307179585 -1.3463968515384828 -1.9991953250116865 -2.174948760177549"/>
+        <start index="4" joints="1.5707963267948966 -2.443460952792061 0.6283185307179592 -0.44879895051282775 -1.4279966607226333 -1.691626813471427"/>
+        <start index="5" joints="-2.356194490192345 -0.34906585039886606 1.884955592153876 0.44879895051282737 -0.8567979964335799 -1.208304866765305"/>
+        <start index="6" joints="1.4726215563702159 0.5042062283539175 -1.2817698026646354 1.4929434476243033 0.5452350886395503 1.35701931190565"/>
+        <start index="7" joints="-0.7853981633974483 -1.7453292519943295 -1.6336281798666925 2.2439947525641375 0.2855993321445264 -0.24166097335306086"/>
+        <start index="8" joints="2.356194490192345 0.34906585039886606 -0.37699111843077515 -3.0133643820146996 0.8567979964335799 0.24166097335306155"/>
+    </ik_seeds>
+
+    <robot_view model="Meshes" screw_axes="true" axis_reach="0" flange_frame="false"/>
+</arm>
