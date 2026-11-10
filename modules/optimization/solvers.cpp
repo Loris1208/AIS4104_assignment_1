@@ -28,12 +28,12 @@ praxis::expected<Eigen::VectorXd, praxis::refusal> newton_raphson(const praxis::
     Eigen::VectorXd x = x0;
     iterates.push_back(x0);
     for (int i = 0; i < max_iterations; i++) {
-        auto err = p.error(x);
+        praxis::expected<Eigen::VectorXd, praxis::refusal> err = p.error(x);
         if (!err) {
             return praxis::unexpected(err.error());
         }
         e = *err;
-        auto jac = p.jacobian(x);
+        praxis::expected<Eigen::MatrixXd, praxis::refusal> jac = p.jacobian(x);
         if (!jac) {
             return praxis::unexpected(jac.error());
         }
@@ -78,7 +78,7 @@ praxis::expected<Eigen::VectorXd, praxis::refusal> gradient_descent(const praxis
     Eigen::VectorXd x = x0;
     iterates.push_back(x0);
     for (int i = 0; i < max_iterations; i++) {
-        auto grad = p.gradient(x);
+        praxis::expected<Eigen::VectorXd, praxis::refusal> grad = p.gradient(x);
         if (!grad) {
             return praxis::unexpected(grad.error());
         }
